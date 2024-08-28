@@ -1,29 +1,47 @@
-import React, { FormEvent, PropsWithChildren, useState } from "react";
+import React, { PropsWithChildren, useState } from "react";
 import { EUsers } from "../../../constants/enums";
+
 type Props = PropsWithChildren<{
-  handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
+  newDebt: (debt: string) => void;
 }>;
 
-export default function NewDebt({ handleSubmit }: Props) {
+export default function NewDebt({ newDebt }: Props) {
   const [exponent, setExponent] = useState(true);
   const [amount, setAmount] = useState<number>();
   const [debtor, setDebtor] = useState<EUsers>();
   const [moneylender, setMoneylender] = useState<EUsers>();
+  const [coment, setComent] = useState<string>("");
+
   const handleDebtorChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setDebtor(event.target.value as EUsers);
   };
+
   const handleMoneylenderChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     setMoneylender(event.target.value as EUsers);
   };
+
   const handleAmoutChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setAmount(value !== "" ? parseFloat(value) : undefined);
   };
+
+  const handleComent = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setComent(value);
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const debt = `${debtor} owes ${moneylender} ${amount} with comment: ${coment}`;
+    newDebt(debt); // Передаем данные в родительский компонент
+  };
+
   return (
     <form
-      className="flex flex-col  h-[100px] w-[300px]"
+      className="flex flex-col  h-[100px] w-[400px]"
       onSubmit={handleSubmit}
     >
       <div className="flex flex-col">
@@ -87,15 +105,17 @@ export default function NewDebt({ handleSubmit }: Props) {
             onChange={handleDebtorChange}
             value={debtor}
           >
+            <option>Debtor</option>
             <option value="Micha">Micha</option>
             <option value="Vitek">Vitek</option>
             <option value="Sania">Sania</option>
           </select>
           <select
-            className="pl-1 bg-[#19547b] rounded border appearance-none w-20 text-center"
+            className="pl-1 bg-[#19547b] rounded border appearance-none w-32 text-center"
             onChange={handleMoneylenderChange}
             value={moneylender}
           >
+            <option>Money lender</option>
             <option value="Micha">Micha</option>
             <option value="Vitek">Vitek</option>
             <option value="Sania">Sania</option>
@@ -105,6 +125,8 @@ export default function NewDebt({ handleSubmit }: Props) {
           type="text"
           placeholder="coment..."
           className="bg-[#19547b] p-1 m-1 border rounded"
+          onChange={handleComent}
+          value={coment}
         />
       </div>
       <button type="submit" className="border rounded m-1">
