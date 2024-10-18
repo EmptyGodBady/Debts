@@ -1,5 +1,4 @@
 import { CategoryScale, Chart } from "chart.js";
-import React, { useState } from "react";
 import { PieChart } from "@mui/x-charts";
 
 Chart.register(CategoryScale);

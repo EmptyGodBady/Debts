@@ -50,10 +50,7 @@ export default function Home() {
           <li key={index}>{debt}</li>
         ))}
       </ul>
-      <div>
-        <button onClick={sendTestData}>Send Test Data</button>
-        {responseMessage && <p>{responseMessage}</p>}
-      </div>
+      
     </div>
   );
 }
