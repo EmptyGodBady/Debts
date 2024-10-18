@@ -36,7 +36,7 @@ export default function NewDebt({ newDebt }: Props) {
     event.preventDefault();
 
     const debt = `${debtor} owes ${moneylender} ${amount} with comment: ${coment}`;
-    newDebt(debt); // Передаем данные в родительский компонент
+    newDebt(debt);
   };
 
   return (
