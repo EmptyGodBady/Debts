@@ -1,59 +1,49 @@
 import DebtsChart from "@/components/chart";
-import NewDebt from "@/components/NewDebt";
-import { useState } from "react";
+import NewDebt from "@/components/Debts/NewDebt";
+import UpdateDebt from "@/components/Debts/UpdateDebt";
+import CreateUser from "@/components/Users/createUser.ts";
+import requestUsers from "@/requesters/requestUsers";
+import { useEffect, useState } from "react";
+import Switch from "react-switch";
 
 export default function Home() {
   const [debts, setDebts] = useState<string[]>([]);
-  const [currentDebts, setCurrentDebts] = useState({});
-
+  const [debtMode, setDebtMode] = useState(true);
   const handleNewDebt = (debt: string) => {
     setDebts((prevDebts) => [...prevDebts, debt]);
   };
-
-  const [responseMessage, setResponseMessage] = useState<string | null>(null);
-
-  const sendTestData = async () => {
-    const testData = {
-      exponent: true,
-      amount: 123,
-      debtor: "string",
-      moneylender: "string",
-      coment: "string",
-    };
-
-    try {
-      const response = await fetch("http://localhost:8080/debt", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(testData),
-      });
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const result = await response.json();
-      setResponseMessage(`Success: ${JSON.stringify(result)}`);
-    } catch (error: any) {
-      setResponseMessage(`Error: ${error.message}`);
-    }
+  const m = async () => {
+    const users = await requestUsers();
+    console.log(users);
   };
 
   return (
-    <div className="bg-[#19547b] h-screen w-screen flex flex-wrap">
-      <NewDebt newDebt={handleNewDebt} />
-      <DebtsChart />
+    <div className="bg-[#333333] h-screen w-screen flex items-center justify-evenly p-1">
+      <div className="flex flex-col items-center">
+        <Switch
+          uncheckedIcon={false}
+          className="mb-10"
+          checkedIcon={false}
+          onColor={"#888"}
+          checked={debtMode}
+          onChange={() => {
+            if (debtMode === true) {
+              setDebtMode(false);
+            } else {
+              setDebtMode(true);
+            }
+          }}
+        />
+        {debtMode && <NewDebt newDebt={handleNewDebt} />}
+        {!debtMode && <UpdateDebt newDebt={handleNewDebt} />}
+      </div>
+      {/* <DebtsChart /> */}
+      <CreateUser />
       <ul>
         {debts.map((debt, index: number) => (
           <li key={index}>{debt}</li>
         ))}
       </ul>
-      <div>
-        <button onClick={sendTestData}>Send Test Data</button>
-        {responseMessage && <p>{responseMessage}</p>}
-      </div>
     </div>
   );
 }
