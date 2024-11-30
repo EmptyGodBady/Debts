@@ -4,7 +4,7 @@ export enum Users {
   Sania = "Sania",
 }
 export enum RootEndpoints {
-  Users = "/api/v1/users",
-  Messages = "/api/v1/messages",
-  Debts = "/api/v1/debts",
+  Users = "/api/v1/users/user",
+  Messages = "/api/v1/messages/message",
+  Debts = "/api/v1/debts/debt",
 }

@@ -1,52 +1,49 @@
 import React, { PropsWithChildren, useState } from "react";
 import { Users } from "../../../../constants/enums";
 import requestUsers from "@/requesters/requestUsers";
+import DropDown from "@/components/DropDown";
 
 type Props = PropsWithChildren<{
-  newDebt: (debt: string) => void;
+  users: string[];
 }>;
 
-export default function UpdateDebt({ newDebt }: Props) {
+export default function UpdateDebt({ users }: Props) {
   const [exponent, setExponent] = useState(true);
   const [amount, setAmount] = useState<number>();
   const [debtor, setDebtor] = useState<Users>();
   const [moneylender, setMoneylender] = useState<Users>();
   const [coment, setComent] = useState<string>("");
-  const m = async () => {
-    const users = await requestUsers();
-    console.log(users);
-  };
-  m();
-  const handleDebtorChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setDebtor(event.target.value as Users);
-  };
 
-  const handleMoneylenderChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    setMoneylender(event.target.value as Users);
-  };
+  // const handleDebtorChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  //   setDebtor(event.target.value as Users);
+  // };
 
-  const handleAmoutChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    setAmount(value !== "" ? parseFloat(value) : undefined);
-  };
+  // const handleMoneylenderChange = (
+  //   event: React.ChangeEvent<HTMLSelectElement>
+  // ) => {
+  //   setMoneylender(event.target.value as Users);
+  // };
 
-  const handleComent = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    setComent(value);
-  };
+  // const handleAmoutChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const value = event.target.value;
+  //   setAmount(value !== "" ? parseFloat(value) : undefined);
+  // };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    // event.preventDefault();
-    // const debt = `${debtor} owes ${moneylender} ${amount} with comment: ${coment}`;
-    // newDebt(debt);
-  };
+  // const handleComent = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const value = event.target.value;
+  //   setComent(value);
+  // };
+
+  // const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  //   // event.preventDefault();
+  //   // const debt = `${debtor} owes ${moneylender} ${amount} with comment: ${coment}`;
+  //   // newDebt(debt);
+  // };
 
   return (
     <form
       className="flex flex-col  h-[100px] w-[400px] mb-5  text-white"
-      onSubmit={handleSubmit}
+      // onSubmit={handleSubmit}
     >
       <div className="flex flex-col">
         <div className="flex justify-between m-1">
@@ -95,38 +92,30 @@ export default function UpdateDebt({ newDebt }: Props) {
             </div>
           )}
           <input
-            onChange={handleAmoutChange}
+            // onChange={handleAmoutChange}
             value={amount !== undefined ? amount : ""}
             placeholder="Value"
             type="number"
             className="w-[75px] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none bg-[#333333]  border rounded text-center"
           />
-          <select
-            className="pl-1 bg-[#333333] rounded border appearance-none w-20 text-center"
-            onChange={handleDebtorChange}
-            value={debtor}
-          >
-            <option>Debtor</option>
-            <option value="Micha">Micha</option>
-            <option value="Vitek">Vitek</option>
-            <option value="Sania">Sania</option>
-          </select>
-          <select
-            className="pl-1 bg-[#333333] rounded border appearance-none w-32 text-center"
-            onChange={handleMoneylenderChange}
-            value={moneylender}
-          >
-            <option>Money lender</option>
-            <option value="Micha">Micha</option>
-            <option value="Vitek">Vitek</option>
-            <option value="Sania">Sania</option>
-          </select>
+          Debtor:
+          <DropDown
+            personSide="Debtor"
+            names={users}
+            FSide={(side) => setDebtor(side as Users)}
+          />
+          Money ender:
+          <DropDown
+            personSide="Moneylender"
+            names={users}
+            FSide={(side) => setMoneylender(side as Users)}
+          />
         </div>
         <input
           type="text"
           placeholder="coment..."
           className="bg-[#333333] p-1 m-1 border rounded"
-          onChange={handleComent}
+          // onChange={handleComent}
           value={coment}
         />
       </div>

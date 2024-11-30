@@ -1,13 +1,11 @@
 import customFetch from ".";
+import host from "../../constants/constants";
 import { RootEndpoints } from "../../constants/enums";
 
 const requestUsers = async () => {
-  const response = await customFetch(
-    "http://localhost:8080" + RootEndpoints.Users + "/user",
-    {
-      method: "GET",
-    }
-  );
+  const response = await customFetch(host + RootEndpoints.Users, {
+    method: "GET",
+  });
   return response;
 };
 export default requestUsers;

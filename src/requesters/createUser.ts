@@ -1,8 +1,9 @@
 import customFetch from ".";
+import host from "../../constants/constants";
 import { RootEndpoints } from "../../constants/enums";
 
 const createUser = async (name: string) => {
-  await customFetch("http://localhost:8080" + RootEndpoints.Users + "/user", {
+  await customFetch(host + RootEndpoints.Users, {
     method: "POST",
     body: { name: name },
   });
