@@ -1,9 +1,9 @@
 import customFetch from ".";
 import host from "../../constants/constants";
 import { RootEndpoints } from "../../constants/enums";
-import { IDebt } from "../../constants/interfaces";
+import { Debt } from "../../constants/interfaces";
 
-const createDebt = async ({ amount, debtor_id, creditor_id }: IDebt) => {
+const createDebt = async ({ amount, debtor_id, creditor_id }: Debt) => {
   await customFetch(host + RootEndpoints.Debts, {
     method: "POST",
     body: {

@@ -21,7 +21,6 @@ export default function NewDebt({ users }: Props) {
 
   const handleComent = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    console.log(coment);
     setComent(value);
   };
 
@@ -42,7 +41,7 @@ export default function NewDebt({ users }: Props) {
       onSubmit={handleSubmit}
     >
       <div className="flex flex-col">
-        <div className="flex justify-between m-1">
+        <div className="flex justify-between m-1 h-7">
           <input
             onChange={handleAmoutChange}
             value={amount !== undefined ? amount : ""}

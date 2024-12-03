@@ -1,49 +1,50 @@
 import React, { PropsWithChildren, useState } from "react";
 import { Users } from "../../../../constants/enums";
-import requestUsers from "@/requesters/requestUsers";
-import DropDown from "@/components/DropDown";
+import { Debt, User } from "../../../../constants/interfaces";
+import Link from "next/link";
 
 type Props = PropsWithChildren<{
-  users: string[];
+  users: User[];
+  debt: Debt;
 }>;
 
-export default function UpdateDebt({ users }: Props) {
+export default function UpdateDebt({ users, debt }: Props) {
   const [exponent, setExponent] = useState(true);
   const [amount, setAmount] = useState<number>();
-  const [debtor, setDebtor] = useState<Users>();
-  const [moneylender, setMoneylender] = useState<Users>();
+  const [debtor_id, setDebtor_id] = useState<Users>();
+  const [creditor_id, setMoneylender_id] = useState<Users>();
   const [coment, setComent] = useState<string>("");
 
-  // const handleDebtorChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-  //   setDebtor(event.target.value as Users);
-  // };
+  const debtor =
+    users.find((user) => user.id === debt.debtor_id)?.name || "Unknown";
+  const creditor =
+    users.find((user) => user.id === debt.creditor_id)?.name || "Unknown";
 
-  // const handleMoneylenderChange = (
-  //   event: React.ChangeEvent<HTMLSelectElement>
-  // ) => {
-  //   setMoneylender(event.target.value as Users);
-  // };
+  const handleAmoutChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setAmount(value !== "" ? parseFloat(value) : undefined);
+  };
 
-  // const handleAmoutChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const value = event.target.value;
-  //   setAmount(value !== "" ? parseFloat(value) : undefined);
-  // };
+  const handleComent = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setComent(value);
+  };
 
-  // const handleComent = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const value = event.target.value;
-  //   setComent(value);
-  // };
-
-  // const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-  //   // event.preventDefault();
-  //   // const debt = `${debtor} owes ${moneylender} ${amount} with comment: ${coment}`;
-  //   // newDebt(debt);
-  // };
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (
+      amount === undefined ||
+      debtor_id === undefined ||
+      creditor_id === undefined
+    )
+      return;
+    // updateDebt({  });
+  };
 
   return (
     <form
       className="flex flex-col  h-[100px] w-[400px] mb-5  text-white"
-      // onSubmit={handleSubmit}
+      onSubmit={handleSubmit}
     >
       <div className="flex flex-col">
         <div className="flex justify-between m-1">
@@ -92,40 +93,32 @@ export default function UpdateDebt({ users }: Props) {
             </div>
           )}
           <input
-            // onChange={handleAmoutChange}
+            onChange={handleAmoutChange}
             value={amount !== undefined ? amount : ""}
             placeholder="Value"
             type="number"
             className="w-[75px] [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none bg-[#333333]  border rounded text-center"
           />
-          Debtor:
-          <DropDown
-            personSide="Debtor"
-            names={users}
-            FSide={(side) => setDebtor(side as Users)}
-          />
-          Money ender:
-          <DropDown
-            personSide="Moneylender"
-            names={users}
-            FSide={(side) => setMoneylender(side as Users)}
-          />
+          <p className="border rounded pr-1 pl-1">{debtor}</p>
+          <p>owe</p>
+          <p className="border rounded pr-1 pl-1">{creditor}</p>
         </div>
         <input
           type="text"
           placeholder="coment..."
           className="bg-[#333333] p-1 m-1 border rounded"
-          // onChange={handleComent}
+          onChange={handleComent}
           value={coment}
         />
       </div>
-      <button
-        type="submit"
-        className="border rounded m-1 bg-[#333333]"
-        onClick={() => {}}
-      >
-        Create
-      </button>
+      <Link href={"/"}>
+        <button
+          type="submit"
+          className="border rounded m-1 bg-[#333333] w-[392px]"
+        >
+          Create
+        </button>
+      </Link>
     </form>
   );
 }

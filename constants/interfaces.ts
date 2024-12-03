@@ -1,11 +1,11 @@
-export interface IDebt {
+export interface Debt {
   id?: string;
   amount: number;
   debtor_id: string;
   creditor_id: string;
-  messages?: IMessage;
+  messages?: Message;
 }
-export interface IMessage {
+export interface Message {
   id?: string;
   description: string;
   sender_id?: string;
